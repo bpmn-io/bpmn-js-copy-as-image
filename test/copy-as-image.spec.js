@@ -34,10 +34,7 @@ describe('copy-as-image', function() {
       container: testContainer(),
       additionalModules: [
         CopyAsImageModule
-      ],
-      keyboard: {
-        bindTo: document.body
-      }
+      ]
     });
 
     await modeler.importXML(sampleDiagram);
