@@ -2,15 +2,20 @@
   "name": "bpmn-js-copy-as-image",
   "version": "0.1.0",
   "description": "A bpmn-js extension which allows to render selected elements as images",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "files": [
-    "src"
+    "dist"
   ],
   "scripts": {
-    "all": "npm test",
-    "start": "cross-env TEST_BROWSERS=Debug npm run dev",
-    "dev": "karma start",
-    "test": "karma start --single-run --no-auto-watch"
+    "all": "run-s lint test build",
+    "lint": "eslint .",
+    "test": "karma start karma.config.js",
+    "dev": "npm test -- --auto-watch --no-single-run",
+    "start": "cross-env SINGLE_START=BPMN npm run dev",
+    "build": "rollup -c",
+    "build:watch": "rollup -cw",
+    "prepare": "run-s build"
   },
   "repository": {
     "type": "git",
@@ -25,26 +30,50 @@
     "url": "https://github.com/barmac/bpmn-js-copy-as-image/issues"
   },
   "homepage": "https://github.com/barmac/bpmn-js-copy-as-image#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "contributors": [
+    {
+      "name": "bpmn.io contributors",
+      "url": "https://github.com/bpmn-io"
+    }
+  ],
+  "peerDependencies": {
+    "diagram-js": ">= 15.3.0"
+  },
   "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "babel-loader": "^10.0.0",
+    "babel-plugin-istanbul": "^7.0.1",
     "bpmn-js": "18.12.0",
     "chai": "^6.2.2",
     "cross-env": "^10.1.0",
     "downloadjs": "^1.4.7",
+    "eslint": "^9.39.2",
+    "eslint-plugin-bpmn-io": "^2.2.0",
     "file-drops": "^0.7.0",
     "file-open": "^0.2.0",
     "karma": "^6.4.4",
     "karma-chrome-launcher-2": "^3.3.0",
+    "karma-coverage": "^2.2.1",
     "karma-debug-launcher": "0.0.5",
+    "karma-env-preprocessor": "^0.1.1",
     "karma-mocha": "^2.0.1",
     "karma-webpack": "^5.0.1",
     "mocha": "^11.7.5",
+    "npm-run-all2": "^8.0.4",
     "puppeteer": "^24.37.2",
+    "raw-loader": "^4.0.2",
+    "rollup": "^4.57.1",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "sinon": "^21.0.1",
     "sinon-chai": "^4.0.1",
     "webpack": "^5.105.0"
   },
   "dependencies": {
-    "canvg": "^4.0.3",
-    "diagram-js": "^15.9.0"
+    "canvg": "^4.0.3"
   }
 }
