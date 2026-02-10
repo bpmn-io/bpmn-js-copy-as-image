@@ -46,7 +46,7 @@ describe('copy-as-image', function() {
 });
 
 
-/////////////// helpers //////////////////////////
+// helpers //////////////////////////
 
 function setupApp(modeler, fileName) {
 
