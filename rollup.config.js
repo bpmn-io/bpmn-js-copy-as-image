@@ -1,0 +1,26 @@
+const commonjs = require('@rollup/plugin-commonjs');
+const json = require('@rollup/plugin-json');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+
+const pkg = require('./package.json');
+const nonbundledDependencies = Object.keys({ ...pkg.dependencies });
+
+module.exports = {
+  input: 'src/index.js',
+  output: [
+    {
+      file: pkg.main,
+      format: 'cjs'
+    },
+    {
+      file: pkg.module,
+      format: 'esm'
+    }
+  ],
+  plugins: [
+    commonjs(),
+    json(),
+    nodeResolve(),
+  ],
+  external: nonbundledDependencies
+};
