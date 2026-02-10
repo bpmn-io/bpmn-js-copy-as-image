@@ -6,9 +6,43 @@ const PADDING = {
   y: 6
 };
 
-export class ElementsRenderer {
+export default class ElementsRenderer {
   constructor(bpmnjs, elementRegistry) {
     this._bpmnjs = bpmnjs;
+    this._elementRegistry = elementRegistry;
+  }
+
+  /**
+   * Render current selection as PNG.
+   *
+   * @returns {Promise<Blob|null>}
+   */
+  async renderSelectionAsPNG() {
+    const selection = this._bpmnjs.get('selection', false);
+    const copyPaste = this._bpmnjs.get('copyPaste', false);
+
+    if (!selection || !copyPaste) {
+      return null;
+    }
+
+    const elements = selection.get();
+
+    if (!elements || !elements.length) {
+      return null;
+    }
+
+    const tree = copyPaste.createTree(elements);
+    const ids = new Set();
+
+    Object.values(tree || {}).forEach(branch => {
+      branch.forEach(descriptor => ids.add(descriptor.id));
+    });
+
+    if (!ids.size) {
+      return null;
+    }
+
+    return this.renderAsPNG([ ...ids ]);
   }
 
   /**
@@ -86,4 +120,4 @@ export class ElementsRenderer {
   }
 }
 
-ElementsRenderer.$inject = [ 'bpmnjs' ];
+ElementsRenderer.$inject = [ 'bpmnjs', 'elementRegistry' ];

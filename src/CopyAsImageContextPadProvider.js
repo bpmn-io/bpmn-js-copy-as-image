@@ -1,4 +1,4 @@
-export class CopyAsImageContextPadProvider {
+export default class CopyAsImageContextPadProvider {
   constructor(elementsRenderer, contextPad) {
     this._elementsRenderer = elementsRenderer;
     this._contextPad = contextPad;
