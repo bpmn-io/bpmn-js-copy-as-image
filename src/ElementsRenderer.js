@@ -1,10 +1,10 @@
-import { Canvg } from 'canvg'
+import { Canvg } from 'canvg';
 import { getBBox } from 'diagram-js/lib/util/Elements';
 
 const PADDING = {
   x: 6,
   y: 6
-}
+};
 
 export class ElementsRenderer {
   constructor(bpmnjs, elementRegistry) {
@@ -56,7 +56,7 @@ export class ElementsRenderer {
     const svgDoc = new DOMParser().parseFromString(svg, 'image/svg+xml');
 
     // remove visuals of elements we don't want to render
-    const gfx = svgDoc.querySelectorAll('svg > .djs-group [data-element-id]')
+    const gfx = svgDoc.querySelectorAll('svg > .djs-group [data-element-id]');
     gfx.forEach(element => {
       if (!ids.includes(element.dataset.elementId)) {
         element.querySelector('.djs-visual').remove();
