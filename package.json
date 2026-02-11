@@ -44,7 +44,7 @@
     }
   ],
   "peerDependencies": {
-    "diagram-js": ">= 15.3.0"
+    "bpmn-js": ">= 18.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
