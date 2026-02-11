@@ -1,6 +1,6 @@
 {
   "name": "bpmn-js-copy-as-image",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A bpmn-js extension which allows to render selected elements as images",
   "type": "module",
   "main": "dist/index.js",
