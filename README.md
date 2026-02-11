@@ -2,23 +2,24 @@
 
 [![CI](https://github.com/barmac/bpmn-js-copy-as-image/actions/workflows/CI.yml/badge.svg)](https://github.com/barmac/bpmn-js-copy-as-image/actions/workflows/CI.yml)
 
-This project allows to capture elements as PNG or SVG programmatically, and to copy rendered PNG to the clipboard via context pad.
+This project extends your [bpmn-js](https://github.com/bpmn-io/bpmn-js) editor to copy the current canvas selection as an image, or generate a PNG/SVG from a list of eleemnts.
 
 ![pasted screenshot](./resources/screenshot.png)
 
 ## Features
 
-* copy selected elements as PNG via the context pad
-* render elements as PNG
-* render elements as SVG
+* generate SVG or PNG from a selection of diagram elements
+* copy to [system clipboard](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+  * triggered via `CtrlOrCmd + Shift + C` keyboard shortcut
+  * triggered via `copySelectionAsImage` editor action
 
 ## Usage
 
-The project exposes 2 modules which can be used with [bpmn-js](https://github.com/bpmn-io/bpmn-js).
+Depending on you use-case, include different parts of this project into your favorite [BPMN editor](https://github.com/bpmn-io/bpmn-js).
 
-### Context pad extension
+### Basic
 
-To use the context pad extension, import the `CopyAsImageModule`:
+To enable the keyboard shortcut and/or register the editor action, import `CopyAsImageModule`:
 
 ```javascript
 import BpmnModeler from 'bpmn-js/lib/Modeler';
@@ -34,11 +35,9 @@ const modeler = new BpmnModeler({
 await modeler.importXML(/* ... */);
 ```
 
-### Programmatic API only
+### Programmatic use
 
-The programmatic API is included in the context pad extension. If you want to use only the former,
-import only the `ElementsRendererModule`:
-
+If you want the programmatic API, import `ElementsRendererModule`:
 
 ```javascript
 import BpmnModeler from 'bpmn-js/lib/Modeler';
@@ -57,17 +56,18 @@ const elementsRenderer = modeler.get('elementsRenderer');
 const png = await elementsRenderer.renderAsPNG([ 'Task_1' ]);
 ```
 
-## Demo
+## Build and Run
 
 ```
 # install dependencies
 npm install
 
-# run in browser
+# run project, executing all tasks
+npm run all
+
+# start demo, in browser
 npm start
 ```
-
-Go to http://localhost:9876/debug.html.
 
 ## Credits
 
