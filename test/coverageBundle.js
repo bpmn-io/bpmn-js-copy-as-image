@@ -1,9 +1,15 @@
-import './globals';
+import './globals.js';
 
-const allTests = require.context('./spec', true, /.spec\.js$/);
+const allTests = import.meta.webpackContext('./spec', {
+  recursive: true,
+  regExp: /.spec\.js$/
+});
 
 allTests.keys().forEach(allTests);
 
-const allSources = require.context('../src', true, /.*\.js$/);
+const allSources = import.meta.webpackContext('../src', {
+  recursive: true,
+  regExp: /.*\.js$/
+});
 
 allSources.keys().forEach(allSources);

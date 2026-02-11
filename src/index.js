@@ -1,5 +1,5 @@
-import { ElementsRenderer } from './ElementsRenderer';
-import { CopyAsImageContextPadProvider } from './CopyAsImageContextPadProvider';
+import { ElementsRenderer } from './ElementsRenderer.js';
+import { CopyAsImageContextPadProvider } from './CopyAsImageContextPadProvider.js';
 
 
 export const ElementsRendererModule = {

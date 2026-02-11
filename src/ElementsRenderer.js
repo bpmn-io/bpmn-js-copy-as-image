@@ -1,5 +1,5 @@
 import { Canvg } from 'canvg';
-import { getBBox } from 'diagram-js/lib/util/Elements';
+import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
 const PADDING = {
   x: 6,

@@ -9,11 +9,7 @@ module.exports = {
   input: 'src/index.js',
   output: [
     {
-      file: pkg.main,
-      format: 'cjs'
-    },
-    {
-      file: pkg.module,
+      file: pkg.exports['.'],
       format: 'esm'
     }
   ],
