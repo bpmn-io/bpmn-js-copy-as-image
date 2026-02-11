@@ -1,10 +1,10 @@
-import BpmnModeler from 'bpmn-js/lib/Modeler';
+import BpmnModeler from 'bpmn-js/lib/Modeler.js';
 
 import sampleDiagram from './sample.bpmn';
 
 import {
   insertCSS
-} from './helper';
+} from '../helper/index.js';
 
 import fileDrop from 'file-drops';
 import fileOpen from 'file-open';
@@ -16,7 +16,7 @@ import diagramCSS from 'bpmn-js/dist/assets/diagram-js.css';
 import bpmnCSS from 'bpmn-js/dist/assets/bpmn-js.css';
 import bpmnFontCSS from 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 
-import { CopyAsImageModule } from '../src';
+import { CopyAsImageModule } from '../../src/index.js';
 
 
 insertCSS('file-drops.css', fileDropCSS);
