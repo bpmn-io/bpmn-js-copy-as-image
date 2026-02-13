@@ -1,5 +1,6 @@
-import { Canvg } from 'canvg';
 import { getBBox } from 'diagram-js/lib/util/Elements.js';
+
+import generateImage from './util/generateImageFromSvg.js';
 
 const PADDING = {
   x: 6,
@@ -53,22 +54,7 @@ export default class ElementsRenderer {
    */
   async renderAsPNG(elements) {
     const svg = await this.renderAsSVG(elements);
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const canvg = Canvg.fromString(ctx, svg);
-
-    await canvg.render();
-
-    ctx.globalCompositeOperation = 'destination-over';
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const png = await new Promise(resolve => {
-      canvas.toBlob(blob => resolve(blob), 'image/png');
-    });
-
-    return png;
+    return generateImage(svg, { imageType: 'png', outputFormat: 'blob' });
   }
 
   async renderAsSVG(elements) {
@@ -99,8 +85,13 @@ export default class ElementsRenderer {
 
     // adjust svg viewbox with padding to account for arrow markers
     const bbox = this._getBBox(elements);
+    const paddedWidth = bbox.width + PADDING.x * 2;
+    const paddedHeight = bbox.height + PADDING.y * 2;
+
     svgDoc.documentElement.setAttribute('viewBox',
-      `${bbox.x - PADDING.x} ${bbox.y - PADDING.y} ${bbox.width + PADDING.x * 2} ${bbox.height + PADDING.y * 2}`);
+      `${bbox.x - PADDING.x} ${bbox.y - PADDING.y} ${paddedWidth} ${paddedHeight}`);
+    svgDoc.documentElement.setAttribute('width', `${Math.max(1, Math.ceil(paddedWidth))}`);
+    svgDoc.documentElement.setAttribute('height', `${Math.max(1, Math.ceil(paddedHeight))}`);
 
     const serialized = new XMLSerializer().serializeToString(svgDoc);
 
