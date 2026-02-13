@@ -50,14 +50,11 @@ export default async function generateImageFromSvg(svg, options = {}) {
   const initialSVG = svg;
 
   for (let scale = INITIAL_SCALE; scale >= FINAL_SCALE; scale -= SCALE_STEP) {
-
-    let canvas = document.createElement('canvas');
-
-    svg = initialSVG.replace(/width="([^"]+)" height="([^"]+)"/, function(_, widthStr, heightStr) {
-      return `width="${parseInt(widthStr, 10) * scale}" height="${parseInt(heightStr, 10) * scale}"`;
-    });
-
     try {
+      let canvas = document.createElement('canvas');
+
+      svg = scaleSvg(initialSVG, scale);
+
       const context = canvas.getContext('2d');
 
       const canvg = Canvg.fromString(context, svg);
@@ -92,4 +89,26 @@ export default async function generateImageFromSvg(svg, options = {}) {
   }
 
   throw new Error('Error happened generating image. Diagram size is too big.');
+}
+
+function scaleSvg(svg, scale) {
+  return svg
+    .replace(/width="([^"]+)"/, function(match, widthStr) {
+      const width = parseFloat(widthStr);
+
+      if (Number.isNaN(width)) {
+        return match;
+      }
+
+      return `width="${width * scale}"`;
+    })
+    .replace(/height="([^"]+)"/, function(match, heightStr) {
+      const height = parseFloat(heightStr);
+
+      if (Number.isNaN(height)) {
+        return match;
+      }
+
+      return `height="${height * scale}"`;
+    });
 }
