@@ -1,6 +1,6 @@
 import { getBBox } from 'diagram-js/lib/util/Elements.js';
 
-import generateImage from './util/generateImageFromSvg.js';
+import { svgToImage } from '@bpmn-io/svg-to-image';
 
 const PADDING = {
   x: 6,
@@ -54,7 +54,7 @@ export default class ElementsRenderer {
    */
   async renderAsPNG(elements) {
     const svg = await this.renderAsSVG(elements);
-    return generateImage(svg, { imageType: 'png', outputFormat: 'blob' });
+    return svgToImage(svg, { imageType: 'png', outputFormat: 'blob' });
   }
 
   async renderAsSVG(elements) {
