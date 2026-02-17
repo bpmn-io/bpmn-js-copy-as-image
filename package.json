@@ -79,7 +79,6 @@
     "webpack": "^5.105.0"
   },
   "dependencies": {
-    "@bpmn-io/svg-to-image": "^1.0.0",
-    "canvg": "^4.0.3"
+    "@bpmn-io/svg-to-image": "^1.0.0"
   }
 }
