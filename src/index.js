@@ -3,9 +3,6 @@ import CopyAsImageContextPadProvider from './CopyAsImageContextPadProvider.js';
 import CopyAsImageKeyboardBindings from './CopyAsImageKeyboardBindings.js';
 import CopyAsImageEditorActions from './CopyAsImageEditorActions.js';
 
-export { default as generateImageFromSvg } from './util/generateImageFromSvg.js';
-
-
 export const ElementsRendererModule = {
   elementsRenderer: [ 'type', ElementsRenderer ]
 };
