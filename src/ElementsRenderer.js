@@ -7,49 +7,64 @@ const PADDING = {
   y: 6
 };
 
+/**
+ * @typedef { import('diagram-js/lib/model/index.js').Element} Element
+ */
+
+
 export default class ElementsRenderer {
-  constructor(bpmnjs, elementRegistry) {
-    this._bpmnjs = bpmnjs;
+  constructor(injector, elementRegistry) {
+    this._copyPaste = injector.get('copyPaste', false);
+
     this._elementRegistry = elementRegistry;
   }
 
   /**
-   * Render current selection as PNG.
+   * Render the closure for the given elements as an image (PNG).
+   *
+   * @param {Element[]}
    *
    * @returns {Promise<Blob|null>}
    */
-  async renderSelectionAsPNG() {
-    const selection = this._bpmnjs.get('selection', false);
-    const copyPaste = this._bpmnjs.get('copyPaste', false);
+  async renderElementClosure(elements) {
+    const closure = this._computeClosure(elements);
 
-    if (!selection || !copyPaste) {
-      return null;
+    return this.renderAsPNG(closure);
+  }
+
+  /**
+   * @param {Element[]}
+   *
+   * @return {string[]|Element[]} element closure
+   */
+  _computeClosure(elements) {
+
+    if (!this._copyPaste) {
+      throw new Error('[bpmn-js-copy-as-image] Cannot compute element closer without <copyPaste> service');
     }
 
-    const elements = selection.get();
-
-    if (!elements || !elements.length) {
-      return null;
-    }
-
-    const tree = copyPaste.createTree(elements);
+    const tree = this._copyPaste.createTree(elements);
     const ids = new Set();
 
     Object.values(tree || {}).forEach(branch => {
       branch.forEach(descriptor => ids.add(descriptor.id));
     });
 
-    if (!ids.size) {
-      return null;
-    }
-
-    return this.renderAsPNG([ ...ids ]);
+    return ids;
   }
+
+  _saveDiagramSVG() {
+    const { svg } = this._bpmnjs.saveSVG();
+
+    return svg;
+  }
+
 
   /**
    * Render passed elements as PNG.
    *
-   * @param {Array<string|object>} elements - elements to render
+   * @param { string[] | Element[] } elements - elements to render
+   *
    * @returns {Promise<Blob>}
    */
   async renderAsPNG(elements) {
@@ -72,7 +87,7 @@ export default class ElementsRenderer {
     });
 
     // save the diagram as svg and parse document
-    const { svg } = await this._bpmnjs.saveSVG();
+    const svg = await this._saveDiagramSVG();
     const svgDoc = new DOMParser().parseFromString(svg, 'image/svg+xml');
 
     // remove visuals of elements we don't want to render
@@ -111,4 +126,4 @@ export default class ElementsRenderer {
   }
 }
 
-ElementsRenderer.$inject = [ 'bpmnjs', 'elementRegistry' ];
+ElementsRenderer.$inject = [ 'injector', 'elementRegistry' ];

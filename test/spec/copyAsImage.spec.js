@@ -68,18 +68,17 @@ describe('copy-as-image', function() {
   it('should render selection as PNG', async function() {
 
     // given
-    const selection = modeler.get('selection');
     const elementRegistry = modeler.get('elementRegistry');
     const elementsRenderer = modeler.get('elementsRenderer');
 
-    selection.select([
+    const elements = [
       elementRegistry.get('SCAN_QR_CODE'),
       elementRegistry.get('SCAN_OK'),
       elementRegistry.get('sid-EE8A7BA0-5D66-4F8B-80E3-CC2751B3856A')
-    ]);
+    ];
 
     // when
-    const png = await elementsRenderer.renderSelectionAsPNG();
+    const png = await elementsRenderer.renderElementClosure(elements);
 
     // then
     expect(png).to.be.instanceof(Blob);
