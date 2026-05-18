@@ -10,14 +10,14 @@ const singleStart = process.env.SINGLE_START;
 
 const coverage = process.env.COVERAGE;
 
-// use puppeteer provided Chrome for testing
-process.env.CHROME_BIN = require('puppeteer').executablePath();
-
 const absoluteBasePath = path.resolve(path.join(__dirname, basePath));
 
 const suite = coverage ? 'test/coverageBundle.js' : 'test/testBundle.js';
 
-module.exports = function(karma) {
+module.exports = async function(karma) {
+
+  // use puppeteer provided Chrome for testing
+  process.env.CHROME_BIN = await require('puppeteer').executablePath();
 
   const config = {
 
