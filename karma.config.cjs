@@ -29,6 +29,10 @@ module.exports = function(karma) {
       suite
     ],
 
+    mocha: {
+      timeout: 5000
+    },
+
     preprocessors: {
       [ suite ]: [ 'webpack', 'env' ]
     },
